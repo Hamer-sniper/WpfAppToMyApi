@@ -1,0 +1,50 @@
+﻿<Window x:Class="WpfAppToMyApi.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfAppToMyApi"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="800" Width="1200">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+
+        <StackPanel x:Name="stackPanel" Grid.Column="1" DataContext="{Binding DataBook}">
+            <TextBlock Text="Id" FontSize="20" Margin="5"/>
+            <TextBox x:Name="txtId" Text="{Binding DataBook.Id, Mode=TwoWay}" FontSize="20" Margin="5"/>
+            <TextBlock Text="Фамилия" FontSize="20" Margin="5"/>
+            <TextBox x:Name="txtSurname" Text="{Binding DataBook.Surname, Mode=TwoWay}"  FontSize="20" Margin="5"/>
+            <TextBlock Text="Имя" FontSize="20" Margin="5"/>
+            <TextBox x:Name="txtName" Text="{Binding DataBook.Name, Mode=TwoWay}"  FontSize="20" Margin="5"/>
+            <TextBlock Text="Отчество" FontSize="20" Margin="5"/>
+            <TextBox x:Name="txtMiddleName" Text="{Binding DataBook.MiddleName, Mode=TwoWay}"  FontSize="20" Margin="5"/>
+            <TextBlock Text="Номер телефона" FontSize="20" Margin="5"/>
+            <TextBox x:Name="txtTelephoneNumber" Text="{Binding DataBook.TelephoneNumber, Mode=TwoWay}"  FontSize="20" Margin="5"/>
+            <TextBlock Text="Адрес" FontSize="20" Margin="5"/>
+            <TextBox x:Name="txtAdress" Text="{Binding DataBook.Adress, Mode=TwoWay}"  FontSize="20" Margin="5"/>
+            <TextBlock Text="Описание" FontSize="20" Margin="5"/>
+            <TextBox x:Name="txtNote" Text="{Binding DataBook.Note, Mode=TwoWay}"  FontSize="20" Margin="5"/>
+
+            <Button x:Name="btnAdd" Content="Добавить"  FontSize="20" Margin="5"/>
+            <Button x:Name="btnRef" Content="Обновить"  FontSize="20" Margin="5"/>
+        </StackPanel>
+        <ListView x:Name="listView">
+
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="Id"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Surname}" Header="Фамилия"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Имя"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding MiddleName}" Header="Отчество"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding TelephoneNumber}" Header="Номер телефона"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Adress}" Header="Адрес"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Note}" Header="Описание"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Window>
