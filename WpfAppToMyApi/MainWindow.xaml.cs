@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
 
 namespace WpfAppToMyApi
 {
@@ -23,6 +25,20 @@ namespace WpfAppToMyApi
         public MainWindow()
         {
             InitializeComponent();
+
+            DataBookDataApi context = new DataBookDataApi();
+
+            btnRef.Click += delegate { listView.ItemsSource = context.GetAllDatabooks().ToObservableCollection(); };
+            btnAdd.Click += delegate
+            {
+                context.CreateDataBook(new DataBook(txtSurname.Text,
+                    txtName.Text,
+                    txtMiddleName.Text,
+                    txtTelephoneNumber.Text,
+                    txtAdress.Text,
+                    txtNote.Text)
+               );
+            };
         }
     }
 }
