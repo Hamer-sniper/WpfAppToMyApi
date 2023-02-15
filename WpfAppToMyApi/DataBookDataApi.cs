@@ -15,12 +15,23 @@ namespace WpfAppToMyApi
             httpClient = new HttpClient();
         }
 
+        public void AddTokenToClient(string accessToken = "")
+        {
+            if (!string.IsNullOrWhiteSpace(accessToken))
+            {
+                httpClient.DefaultRequestHeaders.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
+            }
+        }
+
         /// <summary>
         /// Получить все записи из БД.
         /// </summary>
         /// <returns></returns>
-        public List<DataBook> GetAllDatabooks()
+        public List<DataBook> GetAllDatabooks(string token)
         {
+            AddTokenToClient(token);
+
             string url = baseUrl;
 
             string json = httpClient.GetStringAsync(url).Result;

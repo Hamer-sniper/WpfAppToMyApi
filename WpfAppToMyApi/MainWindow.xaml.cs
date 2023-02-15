@@ -27,9 +27,20 @@ namespace WpfAppToMyApi
             InitializeComponent();
 
             DataBookDataApi context = new DataBookDataApi();
-
-            btnRef.Click += delegate { listView.ItemsSource = context.GetAllDatabooks().ToObservableCollection(); };
+            
+            btnRef.Click += delegate { listView.ItemsSource = context.GetAllDatabooks(Login.First()).ToObservableCollection(); };
             btnAdd.Click += delegate
+            {
+                context.CreateDataBook(new DataBook(txtSurname.Text,
+                    txtName.Text,
+                    txtMiddleName.Text,
+                    txtTelephoneNumber.Text,
+                    txtAdress.Text,
+                    txtNote.Text)
+               );
+            };
+
+            btnLogin.Click += delegate
             {
                 context.CreateDataBook(new DataBook(txtSurname.Text,
                     txtName.Text,
