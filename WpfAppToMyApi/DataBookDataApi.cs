@@ -28,10 +28,8 @@ namespace WpfAppToMyApi
         /// Получить все записи из БД.
         /// </summary>
         /// <returns></returns>
-        public List<DataBook> GetAllDatabooks(string token)
+        public List<DataBook> GetAllDatabooks()
         {
-            AddTokenToClient(token);
-
             string url = baseUrl;
 
             string json = httpClient.GetStringAsync(url).Result;

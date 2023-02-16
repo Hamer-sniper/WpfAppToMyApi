@@ -16,25 +16,27 @@
 
         <StackPanel x:Name="stackPanel" Grid.Column="1" DataContext="{Binding DataBook}" Margin="10,0,0,0">
             <TextBlock Text="Id" FontSize="20" Margin="5"/>
-            <TextBox x:Name="txtId" Text="{Binding DataBook.Id, Mode=TwoWay}" FontSize="20" Margin="5"/>
+            <TextBox x:Name="txtId" Text="{Binding SelectedItem.Id, ElementName=listView}" FontSize="20" Margin="5"/>
             <TextBlock Text="Фамилия" FontSize="20" Margin="5"/>
-            <TextBox x:Name="txtSurname" Text="{Binding DataBook.Surname, Mode=TwoWay}"  FontSize="20" Margin="5"/>
+            <TextBox x:Name="txtSurname" Text="{Binding SelectedItem.Surname, ElementName=listView}"  FontSize="20" Margin="5"/>
             <TextBlock Text="Имя" FontSize="20" Margin="5"/>
-            <TextBox x:Name="txtName" Text="{Binding DataBook.Name, Mode=TwoWay}"  FontSize="20" Margin="5"/>
+            <TextBox x:Name="txtName" Text="{Binding SelectedItem.Name, ElementName=listView}"  FontSize="20" Margin="5"/>
             <TextBlock Text="Отчество" FontSize="20" Margin="5"/>
-            <TextBox x:Name="txtMiddleName" Text="{Binding DataBook.MiddleName, Mode=TwoWay}"  FontSize="20" Margin="5"/>
+            <TextBox x:Name="txtMiddleName" Text="{Binding SelectedItem.MiddleName, ElementName=listView}"  FontSize="20" Margin="5"/>
             <TextBlock Text="Номер телефона" FontSize="20" Margin="5"/>
-            <TextBox x:Name="txtTelephoneNumber" Text="{Binding DataBook.TelephoneNumber, Mode=TwoWay}"  FontSize="20" Margin="5"/>
+            <TextBox x:Name="txtTelephoneNumber" Text="{Binding SelectedItem.TelephoneNumber, ElementName=listView}"  FontSize="20" Margin="5"/>
             <TextBlock Text="Адрес" FontSize="20" Margin="5"/>
-            <TextBox x:Name="txtAdress" Text="{Binding DataBook.Adress, Mode=TwoWay}"  FontSize="20" Margin="5"/>
+            <TextBox x:Name="txtAdress" Text="{Binding SelectedItem.Adress, ElementName=listView}"  FontSize="20" Margin="5"/>
             <TextBlock Text="Описание" FontSize="20" Margin="5"/>
-            <TextBox x:Name="txtNote" Text="{Binding DataBook.Note, Mode=TwoWay}"  FontSize="20" Margin="5"/>
+            <TextBox x:Name="txtNote" Text="{Binding SelectedItem.Note, ElementName=listView}"  FontSize="20" Margin="5"/>
 
             <Button x:Name="btnAdd" Content="Добавить"  FontSize="20" Margin="5"/>
             <Button x:Name="btnRef" Content="Обновить"  FontSize="20" Margin="5"/>
+            <Button x:Name="btnEdit" Content="Изменить"  FontSize="20" Margin="5"/>
+            <Button x:Name="btnDelete" Content="Удалить"  FontSize="20" Margin="5"/>
         </StackPanel>
+        
         <ListView x:Name="listView" Margin="0,0,9,0">
-
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="Id"/>
@@ -53,7 +55,8 @@
             <TextBox x:Name="txtLogin" FontSize="20" Margin="5"/>
             <TextBlock Text="Пароль" FontSize="20" Margin="5"/>
             <TextBox x:Name="txtPass"  FontSize="20" Margin="5"/>
-            <TextBox x:Name="txtToken"  FontSize="20" Margin="5" Visibility="Hidden"/>
+            <TextBlock Text="Токен" FontSize="20" Margin="5"/>
+            <TextBox x:Name="txtToken"  FontSize="20" Margin="5" Height="28"/>
 
             <Button x:Name="btnLogin" Content="Логин"  FontSize="20" Margin="5"/>
         </StackPanel>

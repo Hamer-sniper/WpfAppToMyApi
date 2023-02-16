@@ -1,19 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Collections.ObjectModel;
 
 namespace WpfAppToMyApi
 {
@@ -26,9 +12,24 @@ namespace WpfAppToMyApi
         {
             InitializeComponent();
 
+            txtLogin.Text = "Administrator";
+            txtPass.Text = "123456aA!";
+
             DataBookDataApi context = new DataBookDataApi();
+
+            btnLogin.Click += delegate
+            {
+                txtToken.Text = Login.GetToken(txtLogin.Text, txtPass.Text);
+                context.AddTokenToClient(txtToken.Text);
+            };
+
+            // Обновить
+            btnRef.Click += delegate
+            { 
+                listView.ItemsSource = context.GetAllDatabooks().ToObservableCollection(); 
+            };
             
-            btnRef.Click += delegate { listView.ItemsSource = context.GetAllDatabooks(Login.First()).ToObservableCollection(); };
+            // Добавить
             btnAdd.Click += delegate
             {
                 context.CreateDataBook(new DataBook(txtSurname.Text,
@@ -40,14 +41,23 @@ namespace WpfAppToMyApi
                );
             };
 
-            btnLogin.Click += delegate
+            // Изменить
+            btnEdit.Click += delegate
             {
-                context.CreateDataBook(new DataBook(txtSurname.Text,
+                context.UpdateDataBookById(Convert.ToInt32(txtId.Text),
+                    new DataBook(txtSurname.Text,
                     txtName.Text,
                     txtMiddleName.Text,
                     txtTelephoneNumber.Text,
                     txtAdress.Text,
                     txtNote.Text)
+               );
+            };
+
+            // Удалить
+            btnDelete.Click += delegate
+            {
+                context.DeleteDataBookById(Convert.ToInt32(txtId.Text)                    
                );
             };
         }

@@ -14,17 +14,10 @@ namespace WpfAppToMyApi
         private const string APP_PATH = "https://localhost:7065";
         private static string token;
 
-        //static string First(string UserName, string Password)
-        public static string First()
+        public static string GetToken(string UserName, string Password)
         {
-            //string userName = UserName;
-            //string password = Password;
-
-
-            string userName = "Administrator";
-            string password = "123456aA!";
-
-            
+            string userName = UserName;
+            string password = Password;
 
             //var registerResult = Register(userName, password);
 
@@ -33,18 +26,7 @@ namespace WpfAppToMyApi
             Dictionary<string, string> tokenDictionary = GetTokenDictionary(userName, password);
             token = tokenDictionary["access_token"];
 
-            //Console.WriteLine();
-            //Console.WriteLine("Access Token:");
-            //Console.WriteLine(token);
-
             return token;
-
-            //Console.WriteLine();
-            //string values = GetValues(token);
-            //Console.WriteLine("Values:");
-            //Console.WriteLine(values);
-
-            //Console.Read();
         }
 
         // регистрация
@@ -80,41 +62,6 @@ namespace WpfAppToMyApi
                 // Десериализация полученного JSON-объекта
                 Dictionary<string, string> tokenDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
                 return tokenDictionary;
-            }
-        }
-
-        // создаем http-клиента с токеном 
-        static HttpClient CreateClient(string accessToken = "")
-        {
-            var client = new HttpClient();
-            if (!string.IsNullOrWhiteSpace(accessToken))
-            {
-                client.DefaultRequestHeaders.Authorization =
-                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
-            }
-            return client;
-        }
-
-        // получаем информацию о клиенте 
-        static string GetUserInfo(string token)
-        {
-            using (var client = CreateClient(token))
-            {
-                var response = client.GetAsync(APP_PATH + "/api/Account/UserInfo").Result;
-                return response.Content.ReadAsStringAsync().Result;
-            }
-        }
-
-        // обращаемся по маршруту api/values 
-        static string GetValues(string token)
-        {
-            using (var client = CreateClient(token))
-            {
-                //var response = client.GetAsync(APP_PATH + "/api/values").Result;
-                //return response.Content.ReadAsStringAsync().Result;
-
-                var response = client.GetAsync(APP_PATH + "/api/MyApi").Result;
-                return response.Content.ReadAsStringAsync().Result;
             }
         }
     }
