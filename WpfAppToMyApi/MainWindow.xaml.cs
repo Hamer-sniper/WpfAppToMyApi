@@ -8,27 +8,34 @@ namespace WpfAppToMyApi
     /// </summary>
     public partial class MainWindow : Window
     {
+        private DataBookDataApi context;
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();            
 
+            // Для проверки
+            //txtLogin.Text = "User1";
             txtLogin.Text = "Administrator";
             txtPass.Text = "123456aA!";
 
-            DataBookDataApi context = new DataBookDataApi();
+            context = new DataBookDataApi();
 
             btnLogin.Click += delegate
             {
-                txtToken.Text = Login.GetToken(txtLogin.Text, txtPass.Text);
-                context.AddTokenToClient(txtToken.Text);
+                txtToken.Text = context.GetToken(txtLogin.Text, txtPass.Text);
+            };
+
+            btnRegister.Click += delegate
+            {
+                txtToken.Text = context.Register(txtLogin.Text, txtPass.Text);
             };
 
             // Обновить
             btnRef.Click += delegate
-            { 
-                listView.ItemsSource = context.GetAllDatabooks().ToObservableCollection(); 
+            {
+                Refresh();
             };
-            
+
             // Добавить
             btnAdd.Click += delegate
             {
@@ -39,11 +46,15 @@ namespace WpfAppToMyApi
                     txtAdress.Text,
                     txtNote.Text)
                );
+                Refresh();
             };
 
             // Изменить
             btnEdit.Click += delegate
             {
+                if (string.IsNullOrEmpty(txtId.Text))
+                    return;
+
                 context.UpdateDataBookById(Convert.ToInt32(txtId.Text),
                     new DataBook(txtSurname.Text,
                     txtName.Text,
@@ -52,14 +63,23 @@ namespace WpfAppToMyApi
                     txtAdress.Text,
                     txtNote.Text)
                );
+                Refresh();
             };
 
             // Удалить
             btnDelete.Click += delegate
             {
-                context.DeleteDataBookById(Convert.ToInt32(txtId.Text)                    
-               );
+                if (string.IsNullOrEmpty(txtId.Text))
+                    return;
+
+                context.DeleteDataBookById(Convert.ToInt32(txtId.Text));
+                Refresh();
             };
+        }
+
+        public void Refresh()
+        {
+            listView.ItemsSource = context.GetAllDatabooks().ToObservableCollection();
         }
     }
 }

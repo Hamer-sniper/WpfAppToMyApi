@@ -1,13 +1,15 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace WpfAppToMyApi
 {
     public class DataBookDataApi
     {
-        string baseUrl = @"https://localhost:7065/api/MyApi/";
+        string baseUrl = @"https://localhost:7161/api/MyApi/";
         private HttpClient httpClient { get; set; }
 
         public DataBookDataApi()
@@ -23,6 +25,30 @@ namespace WpfAppToMyApi
                     new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
             }
         }
+
+        public string GetToken(string UserName, string Password)
+        {
+            //var registerResult = Register(userName, password);
+
+            //Console.WriteLine("Статусный код регистрации: {0}", registerResult);
+
+            //Dictionary<string, string> tokenDictionary = GetTokenDictionary(userName, password);
+            //token = tokenDictionary["access_token"];
+
+            var token = httpClient.GetStringAsync($"https://localhost:7161/api/Token/{UserName}/{Password}").Result;
+
+            AddTokenToClient(token);
+            return token;
+        }
+
+        public string Register(string UserName, string Password)
+        {
+            var token = httpClient.GetStringAsync($"https://localhost:7161/api/Register/{UserName}/{Password}").Result;
+
+            AddTokenToClient(token);
+            return token;
+        }
+
 
         /// <summary>
         /// Получить все записи из БД.

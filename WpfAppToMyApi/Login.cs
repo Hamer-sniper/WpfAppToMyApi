@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,22 +13,6 @@ namespace WpfAppToMyApi
     public class Login
     {
         private const string APP_PATH = "https://localhost:7065";
-        private static string token;
-
-        public static string GetToken(string UserName, string Password)
-        {
-            string userName = UserName;
-            string password = Password;
-
-            //var registerResult = Register(userName, password);
-
-            //Console.WriteLine("Статусный код регистрации: {0}", registerResult);
-
-            Dictionary<string, string> tokenDictionary = GetTokenDictionary(userName, password);
-            token = tokenDictionary["access_token"];
-
-            return token;
-        }
 
         // регистрация
         static string Register(string name, string password)
@@ -51,7 +36,7 @@ namespace WpfAppToMyApi
                 {
                     new KeyValuePair<string, string>( "grant_type", "password" ),
                     new KeyValuePair<string, string>( "username", userName ),
-                    new KeyValuePair<string, string> ( "Password", password )
+                    new KeyValuePair<string, string> ( "password", password )
                 };
             var content = new FormUrlEncodedContent(pairs);
 

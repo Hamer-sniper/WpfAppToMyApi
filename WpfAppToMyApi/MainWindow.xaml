@@ -30,8 +30,8 @@
             <TextBlock Text="Описание" FontSize="20" Margin="5"/>
             <TextBox x:Name="txtNote" Text="{Binding SelectedItem.Note, ElementName=listView}"  FontSize="20" Margin="5"/>
 
-            <Button x:Name="btnAdd" Content="Добавить"  FontSize="20" Margin="5"/>
             <Button x:Name="btnRef" Content="Обновить"  FontSize="20" Margin="5"/>
+            <Button x:Name="btnAdd" Content="Добавить"  FontSize="20" Margin="5"/>            
             <Button x:Name="btnEdit" Content="Изменить"  FontSize="20" Margin="5"/>
             <Button x:Name="btnDelete" Content="Удалить"  FontSize="20" Margin="5"/>
         </StackPanel>
@@ -59,6 +59,7 @@
             <TextBox x:Name="txtToken"  FontSize="20" Margin="5" Height="28"/>
 
             <Button x:Name="btnLogin" Content="Логин"  FontSize="20" Margin="5"/>
+            <Button x:Name="btnRegister" Content="Регистрация"  FontSize="20" Margin="5"/>
         </StackPanel>
 
 
