@@ -22,12 +22,17 @@ namespace WpfAppToMyApi
 
             btnLogin.Click += delegate
             {
-                txtToken.Text = context.GetToken(txtLogin.Text, txtPass.Text);
+                context.GetToken(txtLogin.Text, txtPass.Text);
             };
 
             btnRegister.Click += delegate
             {
-                txtToken.Text = context.Register(txtLogin.Text, txtPass.Text);
+                context.Register(txtLogin.Text, txtPass.Text);
+            };
+
+            btnLogout.Click += delegate
+            {
+                context.RemoveTokenFromClient();
             };
 
             // Обновить

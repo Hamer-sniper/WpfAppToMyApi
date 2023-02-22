@@ -55,11 +55,10 @@
             <TextBox x:Name="txtLogin" FontSize="20" Margin="5"/>
             <TextBlock Text="Пароль" FontSize="20" Margin="5"/>
             <TextBox x:Name="txtPass"  FontSize="20" Margin="5"/>
-            <TextBlock Text="Токен" FontSize="20" Margin="5"/>
-            <TextBox x:Name="txtToken"  FontSize="20" Margin="5" Height="28"/>
 
             <Button x:Name="btnLogin" Content="Логин"  FontSize="20" Margin="5"/>
             <Button x:Name="btnRegister" Content="Регистрация"  FontSize="20" Margin="5"/>
+            <Button x:Name="btnLogout" Content="Разлогиниться"  FontSize="20" Margin="5"/>
         </StackPanel>
 
 

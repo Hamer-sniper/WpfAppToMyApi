@@ -10,6 +10,8 @@ namespace WpfAppToMyApi
     public class DataBookDataApi
     {
         string baseUrl = @"https://localhost:7161/api/MyApi/";
+
+        string token = string.Empty;
         private HttpClient httpClient { get; set; }
 
         public DataBookDataApi()
@@ -26,27 +28,23 @@ namespace WpfAppToMyApi
             }
         }
 
-        public string GetToken(string UserName, string Password)
+        public void RemoveTokenFromClient()
         {
-            //var registerResult = Register(userName, password);
-
-            //Console.WriteLine("Статусный код регистрации: {0}", registerResult);
-
-            //Dictionary<string, string> tokenDictionary = GetTokenDictionary(userName, password);
-            //token = tokenDictionary["access_token"];
-
-            var token = httpClient.GetStringAsync($"https://localhost:7161/api/Token/{UserName}/{Password}").Result;
-
-            AddTokenToClient(token);
-            return token;
+            httpClient.DefaultRequestHeaders.Authorization = null;
         }
 
-        public string Register(string UserName, string Password)
+        public void GetToken(string UserName, string Password)
         {
-            var token = httpClient.GetStringAsync($"https://localhost:7161/api/Register/{UserName}/{Password}").Result;
+            token = httpClient.GetStringAsync($"https://localhost:7161/api/Token/{UserName}/{Password}").Result;
 
             AddTokenToClient(token);
-            return token;
+        }
+
+        public void Register(string UserName, string Password)
+        {
+            token = httpClient.GetStringAsync($"https://localhost:7161/api/Register/{UserName}/{Password}").Result;
+
+            AddTokenToClient(token);
         }
 
 
