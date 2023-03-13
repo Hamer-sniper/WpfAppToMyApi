@@ -1,17 +1,18 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
+using System;
+using static System.Net.WebRequestMethods;
+using WpfAppToMyApi.Authentification;
+using System.Net.Http;
+using System.Collections.Generic;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Net.Http.Json;
 
 namespace WpfAppToMyApi
 {
-    public class DataBookDataApi
+    public class DataBookDataApi //: IDataBookData
     {
-        string baseUrl = @"https://localhost:7161/api/MyApi/";
-
-        string token = string.Empty;
+        string baseUrl = @"https://localhost:7177/api/DataBookApi/";
         private HttpClient httpClient { get; set; }
 
         public DataBookDataApi()
@@ -19,6 +20,10 @@ namespace WpfAppToMyApi
             httpClient = new HttpClient();
         }
 
+        /// <summary>
+        /// Добавить токен в заголовок.
+        /// </summary>
+        /// <param name="accessToken">Токен</param>
         public void AddTokenToClient(string accessToken = "")
         {
             if (!string.IsNullOrWhiteSpace(accessToken))
@@ -28,25 +33,166 @@ namespace WpfAppToMyApi
             }
         }
 
+        /// <summary>
+        /// Добавить токен в заголовок.
+        /// </summary>
+        /// <param name="accessToken">Токен</param>
         public void RemoveTokenFromClient()
         {
-            httpClient.DefaultRequestHeaders.Authorization = null;
+            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", "");
         }
 
-        public void GetToken(string UserName, string Password)
+        /// <summary>
+        /// Удалить пользователя.
+        /// </summary>
+        public string DeleteUser(string name)
         {
-            token = httpClient.GetStringAsync($"https://localhost:7161/api/Token/{UserName}/{Password}").Result;
+            string url = "https://localhost:7177/api/AccountApi/" + name;
 
-            AddTokenToClient(token);
+            var request = httpClient.DeleteAsync(requestUri: url).Result;
+
+            if (request.IsSuccessStatusCode)
+                return request.Content.ReadAsStringAsync().Result;
+
+            return String.Empty;
         }
 
-        public void Register(string UserName, string Password)
+        /// <summary>
+        /// Список пользователей.
+        /// </summary>
+        public List<User> UserList()
         {
-            token = httpClient.GetStringAsync($"https://localhost:7161/api/Register/{UserName}/{Password}").Result;
+            string url = "https://localhost:7177/api/AccountApi/";
 
-            AddTokenToClient(token);
+            string json = httpClient.GetStringAsync(url).Result;
+
+            return JsonConvert.DeserializeObject<List<User>>(json);
         }
 
+        /// <summary>
+        /// Список ролей пользователя.
+        /// </summary>
+        /// <param name="name">Имя</param>
+        public ChangeRole GetUserAndRoles(string name)
+        {
+            string url = "https://localhost:7177/api/RolesApi/GetUserAndRoles/" + name;
+
+            string json = httpClient.GetStringAsync(url).Result;
+
+            return JsonConvert.DeserializeObject<ChangeRole>(json);
+        }
+
+        /// <summary>
+        /// Получить текущего пользователя.
+        /// </summary>
+        public ChangeRole GetCurrentUser()
+        {
+            string url = "https://localhost:7177/api/RolesApi/GetCurrentUser/";
+
+            string json = httpClient.GetStringAsync(url).Result;
+
+            return JsonConvert.DeserializeObject<ChangeRole>(json);
+        }
+
+        public List<string> EditUserAndRoles(string userName, List<string> roles)
+        {
+            string url = "https://localhost:7177/api/RolesApi/EditUserAndRoles/" + userName;
+
+            var request = httpClient.PostAsync(
+                requestUri: url,
+                content: new StringContent(JsonConvert.SerializeObject(roles), Encoding.UTF8,
+                mediaType: "application/json")
+                ).Result;
+
+            return request.Content.ReadFromJsonAsync<List<string>>().Result;
+
+        }
+
+        /// <summary>
+        /// Получить роли.
+        /// </summary>
+        public List<IdentityRole> GetRoles()
+        {
+            string url = "https://localhost:7177/api/RolesApi/";
+
+            string json = httpClient.GetStringAsync(url).Result;
+
+            return JsonConvert.DeserializeObject<List<IdentityRole>>(json);
+        }
+
+        /// <summary>
+        /// Удалить роль.
+        /// </summary>
+        public string DeleteRole(string roleName)
+        {
+            string url = "https://localhost:7177/api/RolesApi/" + roleName;
+
+            var request = httpClient.DeleteAsync(requestUri: url).Result;
+
+            if (request.IsSuccessStatusCode)
+                return request.Content.ReadAsStringAsync().Result;
+
+            return String.Empty;
+        }
+
+        /// <summary>
+        /// Создать роль.
+        /// </summary>
+        public string CreateRole(string roleName)
+        {
+            string url = "https://localhost:7177/api/RolesApi/" + roleName;
+
+            var request = httpClient.PostAsync(
+                requestUri: url,
+                content: new StringContent("")).Result;
+
+            if (request.IsSuccessStatusCode)
+                return request.Content.ReadAsStringAsync().Result;
+
+            return String.Empty;
+        }
+
+        /// <summary>
+        /// Логин (получить токен).
+        /// </summary>
+        /// <param name="UserLogin">Модель логина</param>
+        public string Login(UserLogin userlogin)
+        {
+            string url = "https://localhost:7177/api/AccountApi/Login";
+
+            var request = httpClient.PostAsync(
+                requestUri: url,
+                content: new StringContent(JsonConvert.SerializeObject(userlogin), Encoding.UTF8,
+                mediaType: "application/json")
+                ).Result;
+
+
+            if (request.IsSuccessStatusCode)
+                return request.Content.ReadAsStringAsync().Result;
+
+            return String.Empty;
+        }
+
+        /// <summary>
+        /// Регистрация (получить токен).
+        /// </summary>
+        /// <param name="UserLogin">Модель логина</param>
+        public string Register(UserRegistration userRegister)
+        {
+            string url = "https://localhost:7177/api/AccountApi/Register";
+
+            var request = httpClient.PostAsync(
+                requestUri: url,
+                content: new StringContent(JsonConvert.SerializeObject(userRegister), Encoding.UTF8,
+                mediaType: "application/json")
+                ).Result;
+
+
+            if (request.IsSuccessStatusCode)
+                return request.Content.ReadAsStringAsync().Result;
+
+            return String.Empty;
+        }
 
         /// <summary>
         /// Получить все записи из БД.

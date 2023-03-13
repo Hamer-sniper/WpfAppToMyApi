@@ -51,14 +51,22 @@
         </ListView>
 
         <StackPanel x:Name="stackPanelAutorization" Grid.Column="2" Margin="10,0,0,0">
-            <TextBlock Text="Логин" FontSize="20" Margin="5"/>
+            <TextBlock x:Name="TextBlockLogin" Text="Логин" FontSize="20" Margin="5"/>
             <TextBox x:Name="txtLogin" FontSize="20" Margin="5"/>
-            <TextBlock Text="Пароль" FontSize="20" Margin="5"/>
-            <TextBox x:Name="txtPass"  FontSize="20" Margin="5"/>
+            <TextBlock x:Name="TextBlockPass" Text="Пароль" FontSize="20" Margin="5"/>
+            <PasswordBox x:Name="txtPass" PasswordChar="*" FontSize="20" Margin="5"/>           
 
             <Button x:Name="btnLogin" Content="Логин"  FontSize="20" Margin="5"/>
-            <Button x:Name="btnRegister" Content="Регистрация"  FontSize="20" Margin="5"/>
-            <Button x:Name="btnLogout" Content="Разлогиниться"  FontSize="20" Margin="5"/>
+            <Button x:Name="btnLogout"  Content="Разлогиниться"  FontSize="20" Margin="5" Visibility="Hidden"/>
+
+            <TextBlock x:Name="TextBlockNewLogin" Text="Новый логин" FontSize="20" Margin="5" Visibility="Hidden"/>
+            <TextBox x:Name="txtReg" FontSize="20" Margin="5" Visibility="Hidden"/>
+            <TextBlock x:Name="TextBlockNewPass" Text="Пароль" FontSize="20" Margin="5" Visibility="Hidden"/>
+            <PasswordBox x:Name="txtPassReg" PasswordChar="*" FontSize="20" Margin="5" Visibility="Hidden"/>
+            <TextBlock x:Name="TextBlockNewPassConfirm" Text="Повторите пароль" FontSize="20" Margin="5" Visibility="Hidden"/>
+            <PasswordBox x:Name="txtPassRegConfirm" PasswordChar="*" FontSize="20" Margin="5" Visibility="Hidden"/>
+            <Button x:Name="btnRegister" Content="Регистрация"  FontSize="20" Margin="5" Visibility="Hidden"/>
+            
         </StackPanel>
 
 
